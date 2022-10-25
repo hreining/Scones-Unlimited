@@ -8,8 +8,8 @@ def lambda_handler(event, context):
     """A function to serialize target data from S3"""
     
     # Get the s3 address from the Step Function event input
-    key = event['body']['s3_key']
-    bucket = event['body']['s3_bucket']
+    key = event["s3_key"]
+    bucket = event["s3_bucket"]
     
     # Download the data from s3 to /tmp/image.png
     s3.download_file(bucket, key, '/tmp/image.png')
@@ -29,12 +29,13 @@ def lambda_handler(event, context):
         }
     }
     
+    
 import json
 import boto3
 import base64
 
 # Fill this in with the name of your deployed model
-ENDPOINT = 'image-classification-2022-10-20-05-42-59-828'
+ENDPOINT = 'image-classification-2022-10-25-08-59-36-100'
 
 def lambda_handler(event, context):
 
@@ -54,12 +55,12 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps(event)
     }
-    
-    
+
+
 import json
 
 
-THRESHOLD = .8
+#THRESHOLD = .8
 
 
 def lambda_handler(event, context):
@@ -68,14 +69,14 @@ def lambda_handler(event, context):
     inferences = event["inferences"] 
     
     # Check if any values in our inferences are above THRESHOLD
-    meets_threshold = all([True if inferences[i]>=THRESHOLD else False for i in range(len(inferences)) ] )
+    #meets_threshold = all([True if inferences[i]>=THRESHOLD else False for i in range(len(inferences)) ] )
     
     # If our threshold is met, pass our data back out of the
     # Step Function, else, end the Step Function with an error
-    if meets_threshold:
-        pass
-    else:
-        raise("THRESHOLD_CONFIDENCE_NOT_MET")
+    #if meets_threshold:
+    #    pass
+    #else:
+    #    raise("THRESHOLD_CONFIDENCE_NOT_MET")
 
     return {
         'statusCode': 200,
